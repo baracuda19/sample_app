@@ -31,22 +31,34 @@ describe "Static pages" do
           page.should have_selector("li##{item.id}", text: item.content)
         end
       end
-    end
+    
+    describe "follower/following counts" do
+        let(:other_user) { FactoryGirl.create(:user) }
+        before do
+          other_user.follow!(user)
+          visit root_path
+        end
+
+        it { should have_link("0 following", href: following_user_path(user)) }
+        it { should have_link("1 followers", href: followers_user_path(user)) }
+      end
+    
+    end   
     
   end
 
   describe "Help page" do
     before { visit help_path }
-    let (:heading) {'Help'}
-    let (:page_title) { 'Help' }
+    let(:heading) {'Help'}
+    let(:page_title) { 'Help' }
 
     it_should_behave_like "all static pages"
   end
 
   describe "About page" do
     before { visit about_path }
-    let (:heading) {'About'}
-    let (:page_title) { 'About Us' }
+    let(:heading) {'About'}
+    let(:page_title) { 'About Us' }
 
     it_should_behave_like "all static pages"
     
@@ -54,8 +66,8 @@ describe "Static pages" do
 
   describe "Contact page" do
     before { visit contact_path }
-    let (:heading) {'Contact'}
-    let (:page_title) { 'Contact' }
+    let(:heading) {'Contact'}
+    let(:page_title) { 'Contact' }
 
     it_should_behave_like "all static pages"
    
@@ -63,8 +75,8 @@ describe "Static pages" do
 
   describe "Customer Support" do
     before { visit customer_path }
-    let (:heading) {'Customer Support'}
-    let (:page_title) { 'Customer Support' }
+    let(:heading) {'Customer Support'}
+    let(:page_title) { 'Customer Support' }
 
     it_should_behave_like "all static pages"
    
